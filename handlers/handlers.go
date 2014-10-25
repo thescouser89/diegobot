@@ -11,11 +11,7 @@ func Connected(conn *irc.Conn, line *irc.Line) {
 	log.Println("Joined channel")
 }
 
-func Message(conn *irc.Conn, line *irc.Line) {
-	MessageHandle(conn, line)
-}
-
 func Handle(c *irc.Conn) {
 	c.HandleFunc("connected", Connected)
-	c.HandleFunc("privmsg", Message)
+	c.HandleFunc("privmsg", MessageHandle)
 }
