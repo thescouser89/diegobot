@@ -33,5 +33,8 @@ func MessageHandle(conn *irc.Conn, line *irc.Line) {
 
 	case strings.HasPrefix(msg, "!wolfram"):
 		conn.Privmsg(target, WolframHandler(msg))
+
+	case strings.HasPrefix(msg, "!weather"):
+		conn.Privmsg(target, WeatherHandler(msg))
 	}
 }
