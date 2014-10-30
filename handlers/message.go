@@ -1,6 +1,7 @@
 package handlers
 
 import (
+	"github.com/PuerkitoBio/goquery"
 	irc "github.com/fluffle/goirc/client"
 	"strings"
 )
@@ -13,10 +14,55 @@ func GetSenderNick(line *irc.Line) string {
 	return sender_info[0:index_bang]
 }
 
+func ExtractLink(text string) string {
+	start := strings.Index(text, "http")
+	start_of_link := text[start:]
+	link := strings.Split(start_of_link, " ")[0]
+	return link
+}
+
+func GetTitle(link string) string {
+	doc, err := goquery.NewDocument(link)
+	if err != nil {
+		return ""
+	}
+
+	title := ""
+	doc.Find("html head").Each(func(i int, s *goquery.Selection) {
+		title = s.Find("title").Text()
+	})
+	return title
+}
+
+// Properly handle newlines in string when sending back reply
+func SendIRCSanitized(conn *irc.Conn, target string, msg string) {
+	for _, s := range strings.Split(msg, "\n") {
+		conn.Privmsg(target, s)
+	}
+}
+
+func GetTwitterTitle(link string) string {
+	title := GetTitle(link)
+	return strings.Replace(title, " on Twitter", "", 1)
+}
+
+func PrintUrlTitle(conn *irc.Conn, msg string, target string) {
+	if strings.Contains(msg, "http://") || strings.Contains(msg, "https://") {
+		link := ExtractLink(msg)
+		if strings.Contains(link, "https://twitter.com") {
+			SendIRCSanitized(conn, target, GetTwitterTitle(link))
+		} else {
+			SendIRCSanitized(conn, target, GetTitle(link))
+		}
+	}
+}
+
 func MessageHandle(conn *irc.Conn, line *irc.Line) {
 	target := line.Target()
 	msg := strings.Trim(line.Text(), " ")
 	sender_nick := GetSenderNick(line)
+
+	go PrintUrlTitle(conn, msg, target)
 
 	switch {
 	case msg == "!ping":
@@ -29,12 +75,12 @@ func MessageHandle(conn *irc.Conn, line *irc.Line) {
 		}
 
 	case strings.HasPrefix(msg, "!urban"):
-		conn.Privmsg(target, UrbanHandler(msg))
+		SendIRCSanitized(conn, target, UrbanHandler(msg))
 
 	case strings.HasPrefix(msg, "!wolfram"):
-		conn.Privmsg(target, WolframHandler(msg))
+		SendIRCSanitized(conn, target, WolframHandler(msg))
 
 	case strings.HasPrefix(msg, "!weather"):
-		conn.Privmsg(target, WeatherHandler(msg))
+		SendIRCSanitized(conn, target, WeatherHandler(msg))
 	}
 }

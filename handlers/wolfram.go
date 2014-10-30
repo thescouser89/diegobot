@@ -41,7 +41,6 @@ func WolframHandler(msg string) string {
 	decoder.Decode(reply)
 
 	ans := reply.Pods[1].PlainText
-	ans_sanitized := strings.Replace(ans, "\n", " || ", -1)
 
-	return ans_sanitized
+	return ans
 }
