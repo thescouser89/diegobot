@@ -57,6 +57,14 @@ func PrintUrlTitle(conn *irc.Conn, msg string, target string) {
 	}
 }
 
+func HelpHandle() string {
+	return "!ping\n" +
+		"!decide <choice1> | <choice2> | ...\n" +
+		"!urban <words> :: searches Urban Dictionnary for answers to life\n" +
+		"!wolfram <words> :: Asks Wolfram for answers to life\n" +
+		"!weather {place} :: Default location is Toronto. You can specify your own location\n"
+}
+
 func MessageHandle(conn *irc.Conn, line *irc.Line) {
 	target := line.Target()
 	msg := strings.Trim(line.Text(), " ")
@@ -82,5 +90,8 @@ func MessageHandle(conn *irc.Conn, line *irc.Line) {
 
 	case strings.HasPrefix(msg, "!weather"):
 		SendIRCSanitized(conn, target, WeatherHandler(msg))
+
+	case strings.HasPrefix(msg, "!help"):
+		SendIRCSanitized(conn, sender_nick, HelpHandle())
 	}
 }
