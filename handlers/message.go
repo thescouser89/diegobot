@@ -63,7 +63,7 @@ func HelpHandle() string {
 		"!urban <words> :: searches Urban Dictionnary for answers to life\n" +
 		"!wolfram <words> :: Asks Wolfram for answers to life\n" +
 		"!weather {place} :: Default location is Toronto. You can specify your own location\n" +
-		"!meme <meme> :: Returns a link to a meme picture"
+		"!pic <words> :: Returns a link to a picture"
 }
 
 func MessageHandle(conn *irc.Conn, line *irc.Line) {
@@ -92,8 +92,8 @@ func MessageHandle(conn *irc.Conn, line *irc.Line) {
 	case strings.HasPrefix(msg, "!weather"):
 		SendIRCSanitized(conn, target, WeatherHandler(msg))
 
-	case strings.HasPrefix(msg, "!meme"):
-		SendIRCSanitized(conn, target, MemeHandler(msg))
+	case strings.HasPrefix(msg, "!pic"):
+		SendIRCSanitized(conn, target, PicHandler(msg))
 
 	case strings.HasPrefix(msg, "!help"):
 		SendIRCSanitized(conn, sender_nick, HelpHandle())

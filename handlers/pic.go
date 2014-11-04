@@ -13,19 +13,21 @@ const (
 )
 
 type SearchResult struct {
-	responseData ResponseData `json:"responseData"`
-}
-type ResponseData struct {
-	results []Results `json:"results"`
+	ResponseStatus int          `json:"responseStatus"`
+	Data           Responsedata `json:"responseData"`
 }
 
-type Results struct {
+type Responsedata struct {
+	Results []Result `json:"results"`
+}
+
+type Result struct {
 	UnescapedUrl string `json:"unescapedUrl"`
 }
 
-func MemeHandler(msg string) string {
+func PicHandler(msg string) string {
 	var meme string
-	text := strings.Replace(msg, "!meme", "", 1)
+	text := strings.Replace(msg, "!pic", "", 1)
 	trimmed_text := strings.Trim(text, " ")
 
 	if trimmed_text == "" {
@@ -44,6 +46,6 @@ func MemeHandler(msg string) string {
 		decoder := json.NewDecoder(resp.Body)
 		reply := new(SearchResult)
 		decoder.Decode(reply)
-		return reply.responseData.results[0].UnescapedUrl
+		return string(reply.Data.Results[0].UnescapedUrl)
 	}
 }

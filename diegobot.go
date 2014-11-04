@@ -1,8 +1,8 @@
 package main
 
 import (
-	"github.com/diegobot/handlers"
 	irc "github.com/fluffle/goirc/client"
+	"github.com/thescouser89/diegobot/handlers"
 	"log"
 )
 
