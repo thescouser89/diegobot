@@ -64,6 +64,7 @@ func HelpHandle() string {
 		"!wolfram <words> :: Asks Wolfram for answers to life\n" +
 		"!weather {place} :: Default location is Toronto. You can specify your own location\n" +
 		"!pic <words> :: Returns a link to a picture"
+	"!video <words> :: Returns a link to a video"
 }
 
 func MessageHandle(conn *irc.Conn, line *irc.Line) {
@@ -94,6 +95,9 @@ func MessageHandle(conn *irc.Conn, line *irc.Line) {
 
 	case strings.HasPrefix(msg, "!pic"):
 		SendIRCSanitized(conn, target, PicHandler(msg))
+
+	case strings.HasPrefix(msg, "!video"):
+		SendIRCSanitized(conn, target, VideoHandler(msg))
 
 	case strings.HasPrefix(msg, "!help"):
 		SendIRCSanitized(conn, sender_nick, HelpHandle())
