@@ -40,7 +40,8 @@ func WolframHandler(msg string) string {
 	reply := new(WolframAns)
 	decoder.Decode(reply)
 
-	ans := reply.Pods[1].PlainText
-
-	return ans
+	if len(reply.Pods) > 1 {
+		return reply.Pods[1].PlainText
+	}
+	return "Nothing found :("
 }

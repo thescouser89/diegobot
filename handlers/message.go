@@ -63,8 +63,8 @@ func HelpHandle() string {
 		"!urban <words> :: searches Urban Dictionnary for answers to life\n" +
 		"!wolfram <words> :: Asks Wolfram for answers to life\n" +
 		"!weather {place} :: Default location is Toronto. You can specify your own location\n" +
-		"!pic <words> :: Returns a link to a picture"
-	"!video <words> :: Returns a link to a video"
+		"!pic <words> :: Returns a link to a picture\n" +
+		"!video <words> :: Returns a link to a video"
 }
 
 func MessageHandle(conn *irc.Conn, line *irc.Line) {
