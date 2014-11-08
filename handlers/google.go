@@ -86,12 +86,19 @@ func VideoHandler(msg string) string {
 		reply := new(VideoSearchResult)
 		decoder.Decode(reply)
 
-		title := reply.Data.Results[0].Title
 		unescaped, err := url.QueryUnescape(reply.Data.Results[0].Url)
 
-		if err == nil {
-			return string(unescaped + "\n" + title)
+		if err != nil {
+			return ""
 		}
+
+		title := reply.Data.Results[0].Title
+		unescaped_title, err_title := url.QueryUnescape(title)
+
+		if err_title == nil {
+			return string(unescaped + "\n" + unescaped_title)
+		}
+
 		return ""
 	}
 }
