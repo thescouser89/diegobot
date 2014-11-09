@@ -101,5 +101,8 @@ func MessageHandle(conn *irc.Conn, line *irc.Line) {
 
 	case strings.HasPrefix(msg, "!help"):
 		SendIRCSanitized(conn, sender_nick, HelpHandle())
+
+	case strings.HasPrefix(msg, "!holidays"):
+		SendIRCSanitized(conn, sender_nick, Holidays())
 	}
 }
