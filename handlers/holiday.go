@@ -2,13 +2,16 @@ package handlers
 
 import (
 	"encoding/json"
+	"fmt"
 	"log"
 	"net/http"
 	"time"
 )
 
 const (
-	QUERY = "http://www.webcal.fi/cal.php?id=125&format=json&start_year=2014&end_year=2014&tz=America%2FToronto"
+	QUERY_1 = "http://www.webcal.fi/cal.php?id=125&format=json&start_year="
+	QUERY_2 = "&end_year="
+	QUERY_3 = "&tz=America%2FToronto"
 )
 
 type Holiday struct {
@@ -17,7 +20,9 @@ type Holiday struct {
 }
 
 func Holidays() string {
-	resp, err := http.Get(QUERY)
+	cur_year := time.Now().Year()
+	query := fmt.Sprintf("%s%v%s%v%s", QUERY_1, cur_year, QUERY_2, cur_year+1, QUERY_3)
+	resp, err := http.Get(query)
 
 	if err != nil {
 		log.Fatal(err)
