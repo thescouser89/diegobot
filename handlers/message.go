@@ -63,8 +63,10 @@ func HelpHandle() string {
 		"!urban <words> :: searches Urban Dictionnary for answers to life\n" +
 		"!wolfram <words> :: Asks Wolfram for answers to life\n" +
 		"!weather {place} :: Default location is Toronto. You can specify your own location\n" +
+		"!holidays :: Next 3 holidays!\n" +
 		"!pic <words> :: Returns a link to a picture\n" +
-		"!video <words> :: Returns a link to a video"
+		"!video <words> :: Returns a link to a video\n" +
+		"!search <words> :: \"I'm feeling Lucky\""
 }
 
 func MessageHandle(conn *irc.Conn, line *irc.Line) {
@@ -104,5 +106,8 @@ func MessageHandle(conn *irc.Conn, line *irc.Line) {
 
 	case strings.HasPrefix(msg, "!holidays"):
 		SendIRCSanitized(conn, target, Holidays())
+
+	case strings.HasPrefix(msg, "!search"):
+		SendIRCSanitized(conn, target, SearchHandler(msg))
 	}
 }

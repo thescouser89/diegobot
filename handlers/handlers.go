@@ -7,7 +7,7 @@ import (
 
 func Connected(conn *irc.Conn, line *irc.Line) {
 	log.Println("Connected to IRC Server")
-	conn.Join("#mcgillece")
+	conn.Join("#mcgillecetest")
 	log.Println("Joined channel")
 }
 

@@ -9,8 +9,10 @@ import (
 )
 
 const (
-	IMAGE_QUERY = "http://ajax.googleapis.com/ajax/services/search/images?v=1.0&q="
-	VIDEO_QUERY = "http://ajax.googleapis.com/ajax/services/search/video?v=1.0&q="
+	IMAGE_QUERY    = "http://ajax.googleapis.com/ajax/services/search/images?v=1.0&q="
+	VIDEO_QUERY    = "http://ajax.googleapis.com/ajax/services/search/video?v=1.0&q="
+	SEARCH_QUERY_1 = "https://www.google.com/search?q="
+	SEARCH_QUERY_2 = "&btnI="
 )
 
 type SearchResult struct {
@@ -101,4 +103,20 @@ func VideoHandler(msg string) string {
 
 		return ""
 	}
+}
+
+func SearchHandler(msg string) string {
+	var search string
+	text := strings.Replace(msg, "!search", "", 1)
+	trimmed_text := strings.Trim(text, " ")
+	search = url.QueryEscape(trimmed_text)
+
+	search_url := SEARCH_QUERY_1 + search + SEARCH_QUERY_2
+	resp, err := http.Get(search_url)
+
+	if err != nil {
+		return ""
+	}
+	finalURL := resp.Request.URL.String()
+	return finalURL + "\n" + GetTitle(finalURL)
 }
