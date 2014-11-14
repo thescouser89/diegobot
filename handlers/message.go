@@ -109,5 +109,7 @@ func MessageHandle(conn *irc.Conn, line *irc.Line) {
 
 	case strings.HasPrefix(msg, "!search"):
 		SendIRCSanitized(conn, target, SearchHandler(msg))
+	case strings.HasPrefix(msg, "!eval"):
+		SendIRCSanitized(conn, target, EvalHandler(msg))
 	}
 }
