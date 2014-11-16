@@ -7,7 +7,7 @@ import (
 
 func DecideHandler(msg string) string {
 	// remove the !decide prefix
-	text := strings.Replace(msg, "!decide", "", 1)
+	text := RemoveCommandFromString(msg, "!decide")
 
 	// change all '?' to '!'
 	affirmative_text := strings.Replace(text, "?", "!", -1)

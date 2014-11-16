@@ -2,12 +2,10 @@ package handlers
 
 import (
 	urban "github.com/dpatrie/urbandictionary"
-	"strings"
 )
 
 func UrbanHandler(msg string) string {
-	text := strings.Replace(msg, "!urban", "", 1)
-	trimmed_text := strings.Trim(text, " ")
+	trimmed_text := RemoveCommandFromString(msg, "!urban")
 	search, err := urban.Query(trimmed_text)
 
 	if err == nil {

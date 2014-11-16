@@ -5,7 +5,6 @@ import (
 	"log"
 	"net/http"
 	"net/url"
-	"strings"
 )
 
 const (
@@ -23,8 +22,7 @@ type Pod struct {
 }
 
 func WolframHandler(msg string) string {
-	text := strings.Replace(msg, "!wolfram", "", 1)
-	trimmed_text := strings.Trim(text, " ")
+	trimmed_text := RemoveCommandFromString(msg, "!wolfram")
 	search := url.QueryEscape(trimmed_text)
 
 	resp, err := http.Get(WOLFRAM_ENDPOINT + search)

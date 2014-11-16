@@ -5,7 +5,6 @@ import (
 	"log"
 	"net/http"
 	"net/url"
-	"strings"
 )
 
 const (
@@ -33,8 +32,7 @@ type YahooWeather struct {
 
 func WeatherHandler(msg string) string {
 	var location string
-	text := strings.Replace(msg, "!weather", "", 1)
-	trimmed_text := strings.Trim(text, " ")
+	trimmed_text := RemoveCommandFromString(msg, "!weather")
 
 	if trimmed_text == "" {
 		location = "toronto, canada"

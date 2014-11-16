@@ -6,6 +6,11 @@ import (
 	"strings"
 )
 
+func RemoveCommandFromString(text, command string) string {
+	text_no_cmd := strings.Replace(text, command, "", 1)
+	return strings.Trim(text_no_cmd, " ")
+}
+
 // sender info is like this: <nick>!<user>@<ip>
 // we want to extract <nick> only
 func GetSenderNick(line *irc.Line) string {

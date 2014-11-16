@@ -14,8 +14,7 @@ const (
 )
 
 func EvalHandler(msg string) string {
-	text := strings.Replace(msg, "!eval", "", 1)
-	trimmed_text := strings.Trim(text, " ")
+	trimmed_text := RemoveCommandFromString(msg, "!eval")
 	resp, err := http.PostForm(WEBSITE,
 		url.Values{"utf8": {"λ"},
 			"code":    {"puts " + trimmed_text},

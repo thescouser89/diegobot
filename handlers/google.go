@@ -5,7 +5,6 @@ import (
 	"log"
 	"net/http"
 	"net/url"
-	"strings"
 )
 
 const (
@@ -42,10 +41,9 @@ type VideoResult struct {
 }
 
 func PicHandler(msg string) string {
-	var meme string
-	text := strings.Replace(msg, "!pic", "", 1)
-	trimmed_text := strings.Trim(text, " ")
+	trimmed_text := RemoveCommandFromString(msg, "!pic")
 
+	var meme string
 	if trimmed_text == "" {
 		return ""
 	} else {
@@ -67,10 +65,9 @@ func PicHandler(msg string) string {
 }
 
 func VideoHandler(msg string) string {
-	var search string
-	text := strings.Replace(msg, "!video", "", 1)
-	trimmed_text := strings.Trim(text, " ")
+	trimmed_text := RemoveCommandFromString(msg, "!video")
 
+	var search string
 	if trimmed_text == "" {
 		return ""
 	} else {
@@ -107,8 +104,7 @@ func VideoHandler(msg string) string {
 
 func SearchHandler(msg string) string {
 	var search string
-	text := strings.Replace(msg, "!search", "", 1)
-	trimmed_text := strings.Trim(text, " ")
+	trimmed_text := RemoveCommandFromString(msg, "!search")
 	search = url.QueryEscape(trimmed_text)
 
 	search_url := SEARCH_QUERY_1 + search + SEARCH_QUERY_2
