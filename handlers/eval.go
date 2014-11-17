@@ -22,13 +22,14 @@ func EvalHandler(msg string) string {
 			"lang":    {LANGUAGE},
 			"input":   {""}})
 	if err != nil {
-		return "err1"
+		return "booboo!"
 	}
 	doc, err1 := goquery.NewDocumentFromResponse(resp)
 
 	if err1 != nil {
-		return "err2"
+		return "booboo2"
 	}
+
 	eval := ""
 	doc.Find("html body div.paste").Each(func(i int, s *goquery.Selection) {
 		eval = s.Find("pre").Text()

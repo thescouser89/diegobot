@@ -43,12 +43,13 @@ type VideoResult struct {
 func PicHandler(msg string) string {
 	trimmed_text := RemoveCommandFromString(msg, "!pic")
 
-	var meme string
+	var pic string
+
 	if trimmed_text == "" {
 		return ""
 	} else {
-		meme = url.QueryEscape(trimmed_text)
-		resp, err := http.Get(IMAGE_QUERY + meme)
+		pic = url.QueryEscape(trimmed_text)
+		resp, err := http.Get(IMAGE_QUERY + pic)
 
 		if err != nil {
 			log.Fatal(err)
@@ -68,6 +69,7 @@ func VideoHandler(msg string) string {
 	trimmed_text := RemoveCommandFromString(msg, "!video")
 
 	var search string
+
 	if trimmed_text == "" {
 		return ""
 	} else {

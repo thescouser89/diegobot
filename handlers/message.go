@@ -6,6 +6,13 @@ import (
 	"strings"
 )
 
+// Function that proceses any events from the IRC server
+func Handle(c *irc.Conn) {
+	c.HandleFunc("connected", ChannelsToJoin)
+	c.HandleFunc("privmsg", MessageHandle)
+}
+
+// Helper function to remove the command from the text of string from IRC
 func RemoveCommandFromString(text, command string) string {
 	text_no_cmd := strings.Replace(text, command, "", 1)
 	return strings.Trim(text_no_cmd, " ")
@@ -19,6 +26,7 @@ func GetSenderNick(line *irc.Line) string {
 	return sender_info[0:index_bang]
 }
 
+// extract the http(s) link from the text and return the link only
 func ExtractLink(text string) string {
 	start := strings.Index(text, "http")
 	start_of_link := text[start:]
@@ -26,6 +34,7 @@ func ExtractLink(text string) string {
 	return link
 }
 
+// get html title of a link
 func GetTitle(link string) string {
 	doc, err := goquery.NewDocument(link)
 	if err != nil {
@@ -39,6 +48,13 @@ func GetTitle(link string) string {
 	return title
 }
 
+// Helper method to return the title of html link of a twitter link
+// Function will remove the "on Twitter" in the title
+func GetTwitterTitle(link string) string {
+	title := GetTitle(link)
+	return strings.Replace(title, " on Twitter", "", 1)
+}
+
 // Properly handle newlines in string when sending back reply
 func SendIRCSanitized(conn *irc.Conn, target string, msg string) {
 	for _, s := range strings.Split(msg, "\n") {
@@ -46,11 +62,7 @@ func SendIRCSanitized(conn *irc.Conn, target string, msg string) {
 	}
 }
 
-func GetTwitterTitle(link string) string {
-	title := GetTitle(link)
-	return strings.Replace(title, " on Twitter", "", 1)
-}
-
+// bot prints on IRC the title of any html link posted on IRC
 func PrintUrlTitle(conn *irc.Conn, msg string, target string) {
 	if strings.Contains(msg, "http://") || strings.Contains(msg, "https://") {
 		link := ExtractLink(msg)
