@@ -7,6 +7,8 @@ import (
 )
 
 // Helper function to remove the command from the text of string from IRC
+// e.g command is "!weather", text is "!weather montreal"
+//     returned value is "monstreal"
 func RemoveCommandFromString(text, command string) string {
 	text_no_cmd := strings.Replace(text, command, "", 1)
 	return strings.Trim(text_no_cmd, " ")
@@ -78,6 +80,8 @@ func HelpHandle() string {
 		"!pic <words> :: Returns a link to a picture\n" +
 		"!video <words> :: Returns a link to a video\n" +
 		"!search <words> :: \"I'm feeling Lucky\""
+	"!save <key> <values>"
+	"!retrieve <key>"
 }
 
 func MessageHandle(conn *irc.Conn, line *irc.Line) {
