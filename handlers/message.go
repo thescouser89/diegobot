@@ -79,9 +79,9 @@ func HelpHandle() string {
 		"!holidays :: Next 3 holidays!\n" +
 		"!pic <words> :: Returns a link to a picture\n" +
 		"!video <words> :: Returns a link to a video\n" +
-		"!search <words> :: \"I'm feeling Lucky\"" +
-		"!save <key> <values>" +
-		"!retrieve <key>" +
+		"!search <words> :: \"I'm feeling Lucky\"\n" +
+		"!save <key> <values>\n" +
+		"!retrieve <key>\n" +
 		"!uptime"
 }
 
