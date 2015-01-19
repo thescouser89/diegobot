@@ -79,9 +79,10 @@ func HelpHandle() string {
 		"!holidays :: Next 3 holidays!\n" +
 		"!pic <words> :: Returns a link to a picture\n" +
 		"!video <words> :: Returns a link to a video\n" +
-		"!search <words> :: \"I'm feeling Lucky\""
-	"!save <key> <values>"
-	"!retrieve <key>"
+		"!search <words> :: \"I'm feeling Lucky\"" +
+		"!save <key> <values>" +
+		"!retrieve <key>"
+	"!uptime"
 }
 
 func MessageHandle(conn *irc.Conn, line *irc.Line) {
@@ -130,5 +131,7 @@ func MessageHandle(conn *irc.Conn, line *irc.Line) {
 		SaveHandler(msg)
 	case strings.HasPrefix(msg, "!retrieve"):
 		SendIRCSanitized(conn, target, RetrieveHandler(msg))
+	case strings.HasPrefix(msg, "!uptime"):
+		SendIRCSanitized(conn, target, UptimeHandler(msg))
 	}
 }
