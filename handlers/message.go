@@ -81,8 +81,8 @@ func HelpHandle() string {
 		"!video <words> :: Returns a link to a video\n" +
 		"!search <words> :: \"I'm feeling Lucky\"" +
 		"!save <key> <values>" +
-		"!retrieve <key>"
-	"!uptime"
+		"!retrieve <key>" +
+		"!uptime"
 }
 
 func MessageHandle(conn *irc.Conn, line *irc.Line) {
