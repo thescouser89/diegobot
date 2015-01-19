@@ -6,12 +6,6 @@ import (
 	"strings"
 )
 
-// Function that proceses any events from the IRC server
-func Handle(c *irc.Conn) {
-	c.HandleFunc("connected", ChannelsToJoin)
-	c.HandleFunc("privmsg", MessageHandle)
-}
-
 // Helper function to remove the command from the text of string from IRC
 func RemoveCommandFromString(text, command string) string {
 	text_no_cmd := strings.Replace(text, command, "", 1)
