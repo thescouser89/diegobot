@@ -5,6 +5,7 @@ import (
 	"github.com/thescouser89/diegobot/handlers"
 	"log"
 	"os"
+	"time"
 )
 
 const (
@@ -15,11 +16,16 @@ const (
 func main() {
 	c := irc.SimpleClient(BOT_NAME, BOT_NAME)
 
-	connectToServer(c)
-	registerToChannels(c)
-	c.HandleFunc("privmsg", handlers.MessageHandle)
+	for {
+		connectToServer(c)
+		registerToChannels(c)
+		c.HandleFunc("privmsg", handlers.MessageHandle)
 
-	handleDisconnectedEvent(c)
+		handleDisconnectedEvent(c)
+		// give it a delay before we try to reconnect
+		time.Sleep(time.Minute)
+		log.Println("Reconnecting now...")
+	}
 }
 
 func connectToServer(c *irc.Conn) {
@@ -32,6 +38,11 @@ func connectToServer(c *irc.Conn) {
 
 func registerToChannels(c *irc.Conn) {
 	channels := os.Args[1:]
+
+	if len(channels) == 0 {
+		log.Fatal("You need to specify a channel! :: Usage: diegobot mcgillece")
+		os.Exit(1)
+	}
 
 	c.HandleFunc("connected", func(conn *irc.Conn, line *irc.Line) {
 
