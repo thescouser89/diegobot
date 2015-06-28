@@ -1,6 +1,7 @@
 package handlers
 
 import (
+	"fmt"
 	"time"
 )
 
@@ -12,5 +13,9 @@ func init() {
 
 func UptimeHandler(msg string) string {
 	elapsed := time.Since(start)
-	return elapsed.String()
+	if elapsed.Hours() > 48 {
+		return fmt.Sprintf("%v days", elapsed.Hours()/24)
+	} else {
+		return elapsed.String()
+	}
 }
