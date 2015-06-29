@@ -26,7 +26,7 @@ func main() {
                 if !already_signed_in {
                     registerToChannels(c)
                     c.HandleFunc("privmsg", handlers.MessageHandle)
-                    alread_signed_in = true
+                    already_signed_in = true
                 }
 
 		handleDisconnectedEvent(c)
