@@ -16,10 +16,18 @@ const (
 func main() {
 	c := irc.SimpleClient(BOT_NAME, BOT_NAME)
 
+        // we only need to register the handler and specify which channel
+        // to join once. after a reconnect we don't need to do that again,
+        // if we do it again, for every message the bot will reply twice
+        already_signed_in := false
+
 	for {
 		connectToServer(c)
-		registerToChannels(c)
-		c.HandleFunc("privmsg", handlers.MessageHandle)
+                if !already_signed_in {
+                    registerToChannels(c)
+                    c.HandleFunc("privmsg", handlers.MessageHandle)
+                    alread_signed_in = true
+                }
 
 		handleDisconnectedEvent(c)
 		// give it a delay before we try to reconnect
